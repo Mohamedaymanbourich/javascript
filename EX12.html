@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EX12</title>
+</head>
+<body>
+    
+    <div id="images"></div>
+
+    <script>
+        for (let i = 0; i <= 11; i++) {
+            let randomImage = Math.floor(Math.random() * 100); 
+            let lien = `https://picsum.photos/id/${randomImage}/350/350`;
+            let tag = `<img src="${lien}">`; 
+            document.getElementById("images").innerHTML += tag;
+        }
+    </script>
+</body>
+</html>
