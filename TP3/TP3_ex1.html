@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body align="center">
+
+    <form align="center" id="form" >
+
+        <label name="nom">Nom:</label>  <input type="text" id="nom" required><br><br>
+
+        <label name="prenom">Prenom:</label> <input type="text" id="prenom"  required><br><br>
+
+        <label name="email">Email:</label> <input type="email" id="email"  required><br><br>
+
+        <label name="password">Mot de passe:</label> <input type="password" id="password"  required><br><br>
+
+        <label name="repassword">Resaisir le mot de passe:</label> <input type="password" id="repassword"  required><br><br>
+
+        <label name="tel">Telephone:</label> <input type="tel" id="tel"  required><br><br>
+
+        <label name="langue">Langue:</label>
+        <select id="langue" required>
+            <option>Anglais</option>
+            <option>Français</option>
+            <option>Arabe</option>
+        </select><br><br>
+
+        <label name="comm">Commentaires</label> <textarea id="comm" required></textarea><br><br>
+
+
+    </form>
+
+    
+    <button id="valider" onclick="submit()" type="submit">Valider</button> <button id="annuler" onclick="reset()">Annuler</button><br><br>
+
+    <div id="recap"></div>
+<script>
+        function submit() {
+    
+            var allFieldsFilled = true;
+            var requiredInputs = document.querySelectorAll('input[required], select[required], textarea[required]');
+            requiredInputs.forEach(function(input) {
+                if (!input.value.trim()) {
+                    allFieldsFilled = false;
+                    return;
+                }
+            });
+
+            if (!allFieldsFilled) {
+                alert("Veuillez remplir tous les champs obligatoires.");
+                return;
+            }
+            var password = document.getElementById('password').value;
+            var repassword = document.getElementById('repassword').value;
+            var tel = document.getElementById('tel').value;
+            var email = document.getElementById('email').value;
+            var langue = document.getElementById('langue').value;
+    
+            if (password.length < 6) {
+                alert("Le mot de passe doit comporter au moins 6 caractères.");
+                return;
+            }
+    
+            if (password !== repassword) {
+                alert("Les mots de passe ne correspondent pas.");
+                return;
+            }
+    
+            if (tel.length < 10 || isNaN(Number(tel))) {
+                alert("Veuillez saisir un numéro de téléphone valide (format attendu : 0612345678).");
+                return;
+            }
+    
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert("Veuillez saisir une adresse email valide.");
+                return;
+            }
+    
+            var summary = "Nom: " + document.getElementById('nom').value + "<br>";
+            summary += "Prénom: " + document.getElementById('prenom').value + "<br>";
+            summary += "Email: " + email + "<br>";
+            summary += "Téléphone: " + tel + "<br>";
+            summary += "Langue: " + langue + "<br>";
+            summary += "Commentaires: " + document.getElementById('comm').value;
+    
+            console.log(summary)
+            document.getElementById('recap').innerHTML = summary;
+        }
+
+function reset(){
+    let form=document.getElementById('form')
+    let recap=document.getElementById('recap')
+    form.reset()
+    recap.innerHTML=""
+    
+
+
+}
+</script>
+    
+</body>
+</html>

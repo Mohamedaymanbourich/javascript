@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+
+    <h2 align="center">Formulaire étudiant</h2>
+    <div id="form">
+        Code étudiant : <input type="text"  id="code"><br><br>
+        Nom étudiant : <input type="text"  id="name"><br><br>
+        Prénom étudiant : <input type="text" id="surname"><br><br>
+        Semestre : <select  id="semestre">
+            <option>Semestre 1</option>
+            <option>Semestre 2</option>
+            <option>Semestre 3</option>
+            <option>Semestre 4</option>
+            <option>Semestre 5</option>
+            <option>Semestre 6</option>
+        </select><br><br>
+        Notes : <input type="text" placeholder="Module1" required>
+                <input type="text" placeholder="Module2" required> 
+                <input type="text" placeholder="Module3" required> 
+                <input type="text" placeholder="Module4" required> 
+                <input type="text" placeholder="Module5" required> 
+                <input type="text" placeholder="Module6" required> 
+    </div><br>
+    
+    <button type="button" onclick="submitForm()">Soumettre</button>
+
+    <div id="append">
+
+    </div>
+    
+</body>
+
+<script>
+let codes=[]
+function submitForm() {
+    
+    let code = document.getElementById("code").value.trim();
+    for(let i =0;i<code.length;i++){
+        
+    if(code ===codes[i]){
+        alert('Cet élève a déjà été ajouté')
+        return
+    }
+
+    }
+    codes.push(code)
+    console.log(codes)
+    let name = document.getElementById('name').value.trim();
+    let surname = document.getElementById('surname').value.trim();
+    let semestre = document.getElementById("semestre").value;
+    let modules = document.querySelectorAll('input[placeholder]');
+
+    let allFieldsFilled = true;
+    let requiredInputs = document.querySelectorAll('input[required], select[required], textarea[required]');
+    requiredInputs.forEach(function(input) {
+        if (!input.value.trim()) {
+            allFieldsFilled = false;
+            return;
+        }
+    });
+
+
+    if (!allFieldsFilled) {
+        alert("Veuillez remplir tous les champs obligatoires.");
+        return;
+    }
+
+    let valid = Array.from(modules).every(element => {
+        return !isNaN(parseFloat(element.value.trim())) && parseFloat(element.value.trim()) >= 0 && parseFloat(element.value.trim()) <= 20;
+    });
+
+    if(!valid){
+        alert('Les notes doivent être valides');
+        return;
+    }
+    
+    if (!document.getElementsByTagName('table')[0]) {
+        let table = '<table>';
+        table += '<th> Code étudiant </th>';
+        table += '<th> Nom </th>';
+        table += '<th> Prénom </th>';
+        table += '<th> Semestre </th>';
+        table += '<th> Module1 </th>';
+        table += '<th> Module2 </th>';
+        table += '<th> Module3 </th>';
+        table += '<th> Module4 </th>';
+        table += '<th> Module5 </th>';
+        table += '<th> Module6 </th>';
+        table += '<th> Moyenne </th>';
+        table += '<th> Décision </th>';
+        table += '</table>';
+        document.getElementById("append").innerHTML += table;
+    }
+
+let body = '<tr>';
+
+body += '<td>' + code + '</td>';
+body += '<td>' + name + '</td>';
+body += '<td>' + surname + '</td>';
+body += '<td>' + semestre + '</td>'; 
+Array.from(modules).forEach(module => {
+    body += '<td>' + module.value.trim() + '</td>';
+});
+let mean = 0;
+Array.from(modules).forEach(module => {
+    mean += Number(module.value);
+});
+mean = mean / modules.length;
+body += '<td>' + mean + '</td>';
+let validé = true;
+let count = 0;
+let count1 = 0;
+Array.from(modules).forEach(el => {
+    if (Number(el.value) >= 8 && Number(el.value) < 12) {
+        count += 1;
+    }
+    if (Number(el.value) < 8) {
+        count1 += 1;
+    }
+});
+if (count >= 3 || count1 >= 1) {
+    validé = false;
+}
+if (mean >= 12 && validé) {
+    body += '<td>' + 'Semestre validé' + '</td>';
+} else {
+    body += '<td>' + 'Semestre non validé' + '</td>';
+}
+body += '</tr>';
+let table=document.getElementsByTagName('table')[0];
+table.innerHTML += body;
+    
+}
+
+
+
+</script>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+
+        table {
+            border-collapse: collapse;
+            width: 50%; 
+        }
+
+        td {
+            border: 1px solid black; 
+            padding: 8px; 
+            text-align: left; 
+        }
+
+        
+    </style>
+</head>
+<body align="center" >
+    
+    Dimension du tableau <input type="text" id="dim"><br><br>
+
+    La valeur minimale <input type="text" id="min"><br><br>
+
+    La valeur maximale <input type="text" id="max"><br><br>
+
+
+    <button style="background-color:  rgb(62, 109, 248);color: azure;" id="boutton" onclick="generer()">Générer un tableau</button><br><br>
+    
+<div id="tableau"></div>
+
+</body>
+
+
+<script>
+
+function generer(){
+var allFieldsFilled = true;
+var requiredInputs = document.querySelectorAll('input');
+            requiredInputs.forEach(function(input) {
+                if (!input.value.trim()) {
+                    allFieldsFilled = false;
+                    return;
+                }
+            });
+
+            if (!allFieldsFilled) {
+                alert("Veuillez remplir tous les champs obligatoires.");
+                return;
+            }
+let button=document.getElementById('boutton')
+let dim=document.getElementById('dim').value
+dim.trim
+dim=Number(dim)
+
+let minimum=document.getElementById('min').value
+minimum.trim
+console.log(minimum)
+minimum=Number(minimum)
+let max=document.getElementById('max').value
+max.trim
+max=Number(max)
+
+console.log(minimum)
+if (dim!== Math.floor(dim) || minimum !==Math.floor(minimum) || max!=Math.floor(max) || max<minimum){
+
+    alert('Veuillez entrez des entrées valides')
+    return
+}
+
+
+let tab='<table align="center" >'
+for(let i=0;i<dim;i++){
+    let row='<tr class="row">'
+    for(let i=0;i<Math.min(10,dim);i++)   {
+        let random=Math.floor(Math.random() * (max - minimum + 1)) + minimum
+        row+='<td class="column">'+`${random}`+'</td>'
+
+
+
+}
+    dim=dim-10;
+    row+='</tr>'
+    tab+=row
+}
+
+tab+='</table>'
+
+let div=document.getElementById('tableau')
+div.innerHTML=tab
+}
+
+
+
+</script>
+</html>
