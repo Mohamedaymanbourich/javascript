@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        body{
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Formulaire de contact</h1>
+
+    <form>
+        <ul>
+
+
+            <li>
+                    <label name="email">email : </label> <input type="email" id="email" required> </li>
+
+            
+            <li>
+                    <label name="objet">objet : </label> <input type="text" id="objet" required> </li>
+
+            
+            <li>
+                    <label name="corps">corps : </label> <textarea id="corps" required>Corps de l'email</textarea></li>
+        
+        </ul>
+
+
+    </form>
+
+    <button onclick="envoyer()">Envoyer</button><br>
+
+    <div id="sender"></div>
+    <div id="objet_1"></div>
+    <div id="corps_1"></div>
+
+<script src="TP2_6.js"></script>
+</body>
+</html>

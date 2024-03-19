@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+</head>
+<body>
+    <div class="EX1">
+        <input type="text" id="op1"> + 
+        <input type="text" id="op2"> =
+        <div id="result" style="display: inline;"></div>
+        <button onclick="calculer()">Calculer</button>
+
+    </div><br>
+
+    <div id="EX2">
+
+
+    <input type="text" id="p1">        
+    <input type="text" id="p2">
+
+    </div>
+    
+    <button onclick="permuter()" style="display: inline;">Permuter</button><br><br>
+
+
+
+    <div id="EX3">
+        <input type="text" placeholder="Saisir le premier nombre" id="op1_2" required>
+
+        <input type="text" placeholder="Saisir le deuxième nombre" id="op2_2" required>
+        <select id="opération" required>
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+        </select>
+         = 
+        <span id="resultat"></span>
+
+        <button onclick="calculer_operation()">Calculer</button>
+    </div>
+
+
+
+
+    <script src="TP2_JS.js"></script>
+</body>
+
+
+
+</html>
