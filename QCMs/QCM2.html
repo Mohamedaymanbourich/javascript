@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QCM avec Open Trivia Database</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #score-container {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: blue;
+            color:white
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .timer {
+            text-align: center;
+            margin-bottom: 10px;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="score-container" class="container hidden"></div>
+    <div class="container">
+        <h1>Configuration du quizz</h1>
+        <form id="config-form">
+            <label for="category">Catégorie :</label>
+            <select id="category">
+            </select><br>
+            <label for="difficulty">Difficulté :</label>
+            <select id="difficulty">
+                <option value="easy">Facile</option>
+                <option value="medium">Moyenne</option>
+                <option value="hard">Difficile</option>
+            </select><br>
+            <label for="num-questions">Nombre de questions :</label>
+            <input type="number" id="num-questions" min="1" max="10" value="5"><br>
+            <button type="submit">Générer Quizz</button>
+        </form>
+    </div>
+    <div id="quiz-container" class="container hidden"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('https://opentdb.com/api_category.php')
+                .then(response => response.json())
+                .then(data => {
+                    const categorySelect = document.getElementById('category');
+                    data.trivia_categories.forEach(category => {
+                        const option = document.createElement('option');
+                        option.value = category.id;
+                        option.textContent = category.name;
+                        categorySelect.appendChild(option);
+                    });
+                });
+        });
+
+        let questions;
+        let startTime;
+        let currentQuestionIndex;
+        let questionTimers;
+
+        document.getElementById('config-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const category = document.getElementById('category').value;
+            const difficulty = document.getElementById('difficulty').value;
+            const numQuestions = document.getElementById('num-questions').value;
+            fetch(`https://opentdb.com/api.php?amount=${numQuestions}&category=${category}&difficulty=${difficulty}&type=multiple`)
+                .then(response => response.json())
+                .then(data => {
+                    questions = data.results;
+                    questionTimers = new Array(questions.length).fill(null).map(() => ({ timerId: null, endTime: null }));
+                    displayQuiz(questions);
+                    startQuizTimer();
+                });
+        });
+
+        function displayQuiz(questions) {
+            const quizContainer = document.getElementById('quiz-container');
+            quizContainer.innerHTML = '';
+            currentQuestionIndex = 0;
+            questions.forEach((question, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.classList.add('question');
+                questionElement.innerHTML = `
+                    <h2>${index + 1}. ${question.question}</h2>
+                    <div class="timer" id="timer${index}"></div>
+                    <form class="question-form">
+                        ${question.incorrect_answers.map(answer => `<input type="radio" name="question${index}" value="${answer}">${answer}<br>`).join('')}
+                        <input type="radio" name="question${index}" value="${question.correct_answer}">${question.correct_answer}<br>
+                    </form>
+                `;
+                quizContainer.appendChild(questionElement);
+            });
+            quizContainer.innerHTML += `<button onclick="submitQuiz()">Soumettre</button>`;
+            quizContainer.classList.remove('hidden');
+        }
+
+        function submitQuiz() {
+    const forms = document.querySelectorAll('.question-form');
+    let score = 0;
+    forms.forEach((form, index) => {
+        const selectedAnswer = form.querySelector('input:checked');
+        if (selectedAnswer && selectedAnswer.value === questions[index].correct_answer) {
+            score++;
+        }
+    });
+    displayScore(score);
+}
+
+
+        function displayScore(score) {
+            const scoreContainer = document.getElementById('score-container');
+            scoreContainer.innerHTML = `<h2>Votre score est : ${score}/${questions.length}</h2>`;
+            scoreContainer.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startQuizTimer() {
+            startTime = new Date().getTime();
+            startQuestionTimer();
+        }
+
+        function startQuestionTimer() {
+            questionTimers[currentQuestionIndex].endTime = new Date().getTime() + 30000; 
+            const timerElement = document.getElementById(`timer${currentQuestionIndex}`);
+            const timerInterval = setInterval(() => {
+                const currentTime = new Date().getTime();
+                const remainingTime = questionTimers[currentQuestionIndex].endTime - currentTime;
+                const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+                timerElement.textContent = `Temps restant : ${seconds} secondes`;
+
+                if (remainingTime < 0) {
+                    clearInterval(questionTimers[currentQuestionIndex].timerId);
+                    timerElement.textContent = 'Temps écoulé';
+                    // Désactiver les éléments pour cette question
+                    const questionForm = document.querySelector(`.question:nth-child(${currentQuestionIndex + 1}) .question-form`);
+                    questionForm.querySelectorAll('input').forEach(input => {
+                        input.disabled = true;
+                    });
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < questions.length) {
+                        startQuestionTimer();
+                    } else {
+                        submitQuiz();
+                    }
+                }
+            }, 1000);
+            questionTimers[currentQuestionIndex].timerId = timerInterval;
+        }
+
+    </script>
+</body>
+</html>

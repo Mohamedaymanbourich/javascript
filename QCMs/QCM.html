@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QCM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-weight: bold;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #score-container {
+            background-color: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+            position: relative; 
+            margin: 20px auto;
+            text-align: center; 
+            width: 200px;
+        }
+
+        #score-container.show {
+            display: block;
+        }
+
+        .timer {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="score-container" class="hidden">
+        <h2>Votre score est : <span id="score">0</span>/4</h2>
+    </div>
+    <div class="container">
+        <h1>Questionnaire à choix multiples</h1>
+        <div id="questions">
+            <div class="question">
+                <p>1. Quelle est la capitale de la France ?</p>
+                <input type="radio" name="q1" value="paris"> Paris<br>
+                <input type="radio" name="q1" value="londres"> Londres<br>
+                <input type="radio" name="q1" value="berlin"> Berlin<br>
+                <div class="timer" id="timer1"></div>
+            </div>
+            <div class="question">
+                <p>2. Quelle est la couleur du ciel lorsqu'il fait beau ?</p>
+                <input type="radio" name="q2" value="bleu"> Bleu<br>
+                <input type="radio" name="q2" value="gris"> Gris<br>
+                <input type="radio" name="q2" value="orange"> Orange<br>
+                <div class="timer" id="timer2"></div>
+            </div>
+            <div class="question">
+                <p>3. Combien de continents y a-t-il dans le monde ?</p>
+                <input type="radio" name="q3" value="5"> 5<br>
+                <input type="radio" name="q3" value="6"> 6<br>
+                <input type="radio" name="q3" value="7"> 7<br>
+                <div class="timer" id="timer3"></div>
+            </div>
+            <div class="question">
+                <p>4. Quelle est la planète la plus proche du soleil ?</p>
+                <input type="radio" name="q4" value="terre"> Terre<br>
+                <input type="radio" name="q4" value="mercure"> Mercure<br>
+                <input type="radio" name="q4" value="mars"> Mars<br>
+                <div class="timer" id="timer4"></div>
+            </div>
+        </div>
+        <button onclick="calculateScore()">Terminer</button>
+    </div>
+    <script>
+        function calculateScore() {
+            const questions = document.querySelectorAll('.question');
+            let score = 0;
+            questions.forEach(question => {
+                const selectedAnswer = question.querySelector('input:checked');
+                if (selectedAnswer) {
+                    if (selectedAnswer.value === 'paris') {
+                        score++;
+                    }
+                    if (selectedAnswer.value === 'bleu') {
+                        score++;
+                    }
+                    if (selectedAnswer.value === '7') {
+                        score++;
+                    }
+                    if (selectedAnswer.value === 'mercure') {
+                        score++;
+                    }
+                }
+            });
+            document.getElementById('score').textContent = score;
+            document.getElementById('score-container').classList.add('show');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        const questionDurations = [20,20,20,20];
+        let currentQuestionIndex = 0;
+        let timerIntervals = [];
+
+        function startTimer() {
+            const timerElement = document.getElementById(`timer${currentQuestionIndex + 1}`);
+            let duration = questionDurations[currentQuestionIndex];
+            timerElement.textContent = duration;
+
+            const timerInterval = setInterval(() => {
+                duration--;
+                timerElement.textContent = duration;
+
+                if (duration <= 0) {
+                    clearInterval(timerInterval);
+                    disableOptions(currentQuestionIndex + 1);
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < questionDurations.length) {
+                        startTimer();
+                    } else {
+                        calculateScore();
+                    }
+                }
+            }, 1000);
+            timerIntervals.push(timerInterval);
+        }
+
+        function disableOptions(questionNumber) {
+            const options = document.querySelectorAll(`input[name="q${questionNumber}"]`);
+            options.forEach(option => {
+                option.disabled = true;
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', startTimer);
+    </script>
+</body>
+</html>
