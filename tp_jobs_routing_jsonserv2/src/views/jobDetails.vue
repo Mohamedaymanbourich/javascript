@@ -12,7 +12,7 @@
             <p class="num-employees">Number of Employees: {{ this.jobs[this.index1].num_employees }}</p>
             <h3 class="requirements-heading">Requirements:</h3>
             <ul class="requirements-list">
-              <li v-for="(requirement, reqIndex) in this.jobs[this.index1].requirements" :key="reqIndex">
+              <li v-for="(requirement, reqIndex) in Array(this.jobs[this.index1].requirements)" :key="reqIndex">
                 {{ requirement }}
               </li>
             </ul>

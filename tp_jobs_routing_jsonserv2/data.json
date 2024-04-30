@@ -2,7 +2,7 @@
   "jobs": [
     {
       "name": "Software Engineer",
-      "salary": "$90,000 - $150,000",
+      "salary": "$90,000 - $1,500,000",
       "num_employees": "1099",
       "requirements": [
         "Bachelor's degree in Computer Science or related field",
@@ -15,11 +15,7 @@
       "name": "Registered Nurse",
       "salary": "$60,000 - $90,000",
       "num_employees": 300,
-      "requirements": [
-        "Bachelor of Science in Nursing (BSN) or equivalent",
-        "State licensure as a Registered Nurse (RN)",
-        "Strong interpersonal and communication skills"
-      ],
+      "requirements": "CIAM",
       "id": "802e"
     },
     {
@@ -43,13 +39,6 @@
         "Knowledge of electrical systems and codes"
       ],
       "id": "b77c"
-    },
-    {
-      "id": "264f",
-      "name": "freuvbejvbv",
-      "salary": "vevee",
-      "num_employees": "beb",
-      "requirements": "rhgvjkfbuier"
     }
   ]
 }
