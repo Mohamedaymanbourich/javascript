@@ -1,0 +1,55 @@
+{
+  "jobs": [
+    {
+      "name": "Software Engineer",
+      "salary": "$90,000 - $150,000",
+      "num_employees": "1099",
+      "requirements": [
+        "Bachelor's degree in Computer Science or related field",
+        "Proficiency in programming languages such as Java, Python, etc.",
+        "Experience with software development lifecycle"
+      ],
+      "id": "05a2"
+    },
+    {
+      "name": "Registered Nurse",
+      "salary": "$60,000 - $90,000",
+      "num_employees": 300,
+      "requirements": [
+        "Bachelor of Science in Nursing (BSN) or equivalent",
+        "State licensure as a Registered Nurse (RN)",
+        "Strong interpersonal and communication skills"
+      ],
+      "id": "802e"
+    },
+    {
+      "name": "Marketing Manager",
+      "salary": "$70,000 - $120,000",
+      "num_employees": 200,
+      "requirements": [
+        "Bachelor's degree in Marketing or related field",
+        "Experience in digital marketing campaigns",
+        "Strong leadership and strategic thinking skills"
+      ],
+      "id": "fdd6"
+    },
+    {
+      "name": "Electrician",
+      "salary": "$40,000 - $70,000",
+      "num_employees": 150,
+      "requirements": [
+        "Completion of electrician apprenticeship program",
+        "State licensure as an Electrician",
+        "Knowledge of electrical systems and codes"
+      ],
+      "id": "b77c"
+    },
+    {
+      "id": "264f",
+      "name": "freuvbejvbv",
+      "salary": "vevee",
+      "num_employees": "beb",
+      "requirements": "rhgvjkfbuier"
+    }
+  ]
+}
